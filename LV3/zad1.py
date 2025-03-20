@@ -22,7 +22,6 @@ Skripta zadatak_1.py uˇcitava podatkovni skup iz data_C02_emission.csv.
 import pandas as pd
 import numpy as np
 
-
 data = pd.read_csv('data_C02_emission.csv')
 
 def a(data):
@@ -78,8 +77,32 @@ def e(data):
     four_or_more_cylinders = data[(data['Cylinders'] >= 4) & (data['Cylinders'] % 2 == 0)]
     print(f"{len(four_or_more_cylinders)} automobila ima 4, 6, 8... cilindara")
     
-    grouped_by_cylinders = four_or_more_cylinders.groupby('Cylinders')
+    grouped_by_cylinders = four_or_more_cylinders.groupby('Cylinders')['CO2 Emissions (g/km)'].mean()
     
-    print(grouped_by_cylinders.size())
-    
-e(data)
+    print(grouped_by_cylinders)
+
+def f(data):
+    diesel_fueled = data[(data['Fuel Type'] == 'D')]
+    regular_petrol_fueled = data[(data['Fuel Type'] == 'X')]
+
+    print(f"Prosječna gradska potrošnja dizel automobila je {diesel_fueled['Fuel Consumption City (L/100km)'].mean():.2f}")
+    print(f"Prosječna gradska potrošnja regularni benzin automobila je {regular_petrol_fueled['Fuel Consumption City (L/100km)'].mean():.2f}")
+
+def g(data):
+    four_cylinders_diesel_vehicles = data[(data['Cylinders'] == 4) & (data['Fuel Type'] == 'D')]
+    largest_fuel_consumption_vehicle = four_cylinders_diesel_vehicles.loc[(four_cylinders_diesel_vehicles['Fuel Consumption City (L/100km)'].idxmax())]
+    print(f"Automobil s 4 cilindra koji koristi dizel i najviše troši u gradu je {largest_fuel_consumption_vehicle['Make']} {largest_fuel_consumption_vehicle['Model']}, {largest_fuel_consumption_vehicle['Fuel Consumption City (L/100km)']} L/100km.")
+
+def h(data):
+    manuals = data[(data['Transmission'] == 'M')]
+    print(f"Automobila s manualnim prijenosom ima {len(manuals)}")
+
+def i(data):
+    numeric_values = data[['Engine Size (L)', 'Cylinders', 'Fuel Consumption Comb (L/100km)', 'CO2 Emissions (g/km)']]
+
+    correlation_matrix = numeric_values.corr()
+    print(correlation_matrix)
+
+    print("Vidimo veliku ovisnost između veličine motora u L, broja cilindara, potrošnje goriva i CO2 emisija (propocionalne su)")
+
+i(data)
