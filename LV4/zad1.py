@@ -76,10 +76,15 @@ plt.show()
 
 # e) dio
 y_test_p = linearModel.predict(X_test_n)
-MAE = mean_absolute_error(y_test, y_test_p)
-print(MAE)
 
 plt.scatter(y_test, y_test_p)
 plt.xlabel('Actual results')
 plt.ylabel('Predicted results')
 plt.show()
+
+# f) dio
+MAE = mean_absolute_error(y_test, y_test_p)
+print(MAE)
+
+# g) dio
+print("Mjenjanjem test_size MAE ostaje približno jednaka.")
